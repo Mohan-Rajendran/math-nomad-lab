@@ -651,8 +651,8 @@ function SandboxOne() {
     <>
       <header className="hero">
         <div className="eyebrow"><span>Sandbox 01</span><span className="eyebrow-line" /></div>
-        <h1>Build a square kolam</h1>
-        <p className="subtitle">Place each of the sixteen kolam tiles exactly once.</p>
+        <h1>Square Kolam Tile Challenge</h1>
+        <p className="subtitle">Build a square kolam by placing each of the sixteen tiles exactly once.</p>
         <p className="how-to-play"><strong>How to play:</strong> drag a tile from the tile grid to the construction board. You can also select a tile, then select a cell. Drag a board tile back to the tile grid to return it.</p>
       </header>
 
@@ -1150,26 +1150,163 @@ function SandboxThree() {
   );
 }
 
-export default function Home() {
-  const [activeSandbox, setActiveSandbox] = useState<1 | 2 | 3>(1);
+export type LabPage =
+  | "landing"
+  | "square-challenge"
+  | "sandbox-2"
+  | "sandbox-3"
+  | "square-challenge-embed";
+
+type NavigablePage = Exclude<LabPage, "square-challenge-embed">;
+
+const labPages: { page: NavigablePage; href: string; number: string; short: string }[] = [
+  { page: "landing", href: "/", number: "", short: "Lab home" },
+  { page: "square-challenge", href: "/square-kolam-tile-challenge/", number: "01", short: "Build" },
+  { page: "sandbox-2", href: "/sandbox-2/", number: "02", short: "Slide" },
+  { page: "sandbox-3", href: "/sandbox-3/", number: "03", short: "Match" },
+];
+
+function LabNavigation({ active }: { active: NavigablePage }) {
+  return (
+    <nav className="sandbox-nav" aria-label="Kolam Lab">
+      <a className="lab-brand" href="/" aria-label="Go to the Kolam Lab home page">
+        <img src="/mathnomad-logo.png" alt="" width="36" height="36" />
+        <span>
+          <strong>Math Nomad</strong>
+          <small>Kolam Lab</small>
+        </span>
+      </a>
+      <div>
+        {labPages.slice(1).map((item) => (
+          <a
+            key={item.page}
+            className={active === item.page ? "is-active" : ""}
+            aria-current={active === item.page ? "page" : undefined}
+            href={item.href}
+          >
+            <span>{item.number}</span> {item.short}
+          </a>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+type LabPreviewKind = "build" | "slide" | "match";
+
+function PreviewBoard({ board }: { board: (number | null)[] }) {
+  return (
+    <div className="lab-preview-board" aria-hidden="true">
+      {board.map((tile, index) => (
+        <span className={tile === null || tile === 0 ? "is-open" : ""} key={`${tile}-${index}`}>
+          {tile !== null && tile !== 0 ? <KolamArt tile={tile} /> : null}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function LabCardPreview({ kind }: { kind: LabPreviewKind }) {
+  if (kind === "build") {
+    const partialBoard = VALID_EXAMPLE.map((tile, index) => (index < 10 ? tile : null));
+    return (
+      <div className="lab-card-preview preview-build">
+        <PreviewBoard board={partialBoard} />
+        <div className="preview-tray" aria-hidden="true">
+          {VALID_EXAMPLE.slice(10).map((tile) => <KolamArt tile={tile} key={tile} />)}
+        </div>
+      </div>
+    );
+  }
+
+  if (kind === "slide") {
+    return (
+      <div className="lab-card-preview preview-slide">
+        <PreviewBoard board={DEFAULT_PUZZLE_STATE} />
+        <span className="preview-move" aria-hidden="true">↖</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="lab-card-preview preview-match">
+      <PreviewBoard board={PUZZLE_SEEDS[6].state} />
+      <span aria-hidden="true">→</span>
+      <PreviewBoard board={PUZZLE_SEEDS[8].state} />
+    </div>
+  );
+}
+
+function LabLanding() {
+  const cards = [
+    {
+      href: "/square-kolam-tile-challenge/",
+      number: "Sandbox 01",
+      title: "Square Kolam Tile Challenge",
+      text: "Use all sixteen globally oriented tiles to build one connected nonzero kolam on a 4 × 4 board.",
+      action: "Build",
+      preview: "build" as LabPreviewKind,
+    },
+    {
+      href: "/sandbox-2/",
+      number: "Sandbox 02",
+      title: "Slide to a New Kolam",
+      text: "Move tiles through the open cell while preserving a correct square kolam, and watch the orbit invariant.",
+      action: "Slide",
+      preview: "slide" as LabPreviewKind,
+    },
+    {
+      href: "/sandbox-3/",
+      number: "Sandbox 03",
+      title: "Move X to Y",
+      text: "Transform one completed kolam into another and compare two configurations in the same 15-puzzle orbit.",
+      action: "Match",
+      preview: "match" as LabPreviewKind,
+    },
+  ];
+
+  return (
+    <section className="lab-index" aria-labelledby="lab-index-heading">
+      <header>
+        <div className="eyebrow"><span>Interactive mathematics</span><span className="eyebrow-line" /></div>
+        <h1 id="lab-index-heading">Kolam Lab</h1>
+        <p>Three sandboxes for building, moving, and comparing square kolams.</p>
+      </header>
+      <div className="lab-card-grid">
+        {cards.map((card) => (
+          <a className="lab-card" href={card.href} key={card.href} aria-label={`Open ${card.title}`}>
+            <LabCardPreview kind={card.preview} />
+            <span className="lab-card-number">{card.number}</span>
+            <h2>{card.title}</h2>
+            <p>{card.text}</p>
+            <strong>{card.action} <span aria-hidden="true">→</span></strong>
+          </a>
+        ))}
+      </div>
+      <a className="mathnomad-return" href="https://mathnomad.in/">Return to Math Nomad <span aria-hidden="true">↗</span></a>
+    </section>
+  );
+}
+
+export default function App({ page }: { page: LabPage }) {
+  if (page === "square-challenge-embed") {
+    return <main className="page-shell is-embedded"><SandboxOne /></main>;
+  }
+
+  if (page === "landing") {
+    return <main className="page-shell"><LabNavigation active="landing" /><LabLanding /></main>;
+  }
+
+  const sandbox = page === "square-challenge"
+    ? <SandboxOne />
+    : page === "sandbox-2"
+      ? <SandboxTwo />
+      : <SandboxThree />;
 
   return (
     <main className="page-shell">
-      <nav className="sandbox-nav" aria-label="Choose a sandbox">
-        <a className="lab-brand" href="https://mathnomad.in/" aria-label="Return to the Math Nomad home page">
-          <img src="./mathnomad-logo.png" alt="" width="36" height="36" />
-          <span>
-            <strong>Math Nomad</strong>
-            <small>Kolam Lab</small>
-          </span>
-        </a>
-        <div>
-          <button type="button" className={activeSandbox === 1 ? "is-active" : ""} aria-pressed={activeSandbox === 1} onClick={() => setActiveSandbox(1)}><span>01</span> Build</button>
-          <button type="button" className={activeSandbox === 2 ? "is-active" : ""} aria-pressed={activeSandbox === 2} onClick={() => setActiveSandbox(2)}><span>02</span> Slide</button>
-          <button type="button" className={activeSandbox === 3 ? "is-active" : ""} aria-pressed={activeSandbox === 3} onClick={() => setActiveSandbox(3)}><span>03</span> Match</button>
-        </div>
-      </nav>
-      {activeSandbox === 1 ? <SandboxOne /> : activeSandbox === 2 ? <SandboxTwo /> : <SandboxThree />}
+      <LabNavigation active={page} />
+      {sandbox}
     </main>
   );
 }
