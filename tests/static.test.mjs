@@ -20,9 +20,29 @@ test("the deployment contains the Math Nomad application shell", async () => {
   const html = await readFile(join(output, "index.html"), "utf8");
   assert.match(html, /<title>Kolam Lab · Math Nomad<\/title>/);
   assert.match(html, /mathnomad-logo\.png/);
-  assert.match(html, /<div id="root"><\/div>/);
+  assert.match(html, /<div id="root" data-page="landing"><\/div>/);
   assert.match(html, /\.\/assets\/[^\"]+\.js/);
   assert.ok((await stat(join(output, "mathnomad-logo.png"))).size > 1_000);
+});
+
+test("the deployment contains refresh-safe pages and an embed entry", async () => {
+  const entries = [
+    ["square-kolam-tile-challenge/index.html", "square-challenge"],
+    ["sandbox-2/index.html", "sandbox-2"],
+    ["sandbox-3/index.html", "sandbox-3"],
+    ["embed/square-kolam-tile-challenge/index.html", "square-challenge-embed"],
+  ];
+
+  for (const [path, page] of entries) {
+    const html = await readFile(join(output, path), "utf8");
+    assert.match(html, new RegExp(`data-page="${page}"`));
+    assert.match(html, /assets\/[^\"]+\.js/);
+  }
+
+  const challenge = await readFile(join(output, "square-kolam-tile-challenge/index.html"), "utf8");
+  const embed = await readFile(join(output, "embed/square-kolam-tile-challenge/index.html"), "utf8");
+  assert.match(challenge, /<title>Square Kolam Tile Challenge · Math Nomad<\/title>/);
+  assert.match(embed, /<title>Square Kolam Tile Challenge · Math Nomad<\/title>/);
 });
 
 test("the client bundle contains all three interactive sandboxes", async () => {
@@ -31,6 +51,9 @@ test("the client bundle contains all three interactive sandboxes", async () => {
   assert.match(bundle, /Build/);
   assert.match(bundle, /Slide/);
   assert.match(bundle, /Match/);
+  assert.match(bundle, /Square Kolam Tile Challenge/);
+  assert.match(bundle, /Slide to a New Kolam/);
+  assert.match(bundle, /Move X to Y/);
   assert.match(bundle, /Show solution/);
   assert.match(bundle, /Choose an orbit/);
   assert.doesNotMatch(bundle, /littleboy300\.chatgpt\.site/);
