@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { LawOfCosines } from "./LawOfCosines";
+import { PythagoreanProofs } from "./PythagoreanProofs";
 import "./law-of-cosines.css";
+import "./pythagorean-proofs.css";
 
 type Direction = "E" | "N" | "W" | "S";
 type Epsilon = 1 | -1;
@@ -1159,9 +1161,11 @@ export type LabPage =
   | "sandbox-3"
   | "square-challenge-embed"
   | "law-of-cosines"
-  | "law-of-cosines-embed";
+  | "law-of-cosines-embed"
+  | "pythagorean-proofs"
+  | "pythagorean-proofs-embed";
 
-type NavigablePage = Exclude<LabPage, "square-challenge-embed" | "law-of-cosines-embed">;
+type NavigablePage = Exclude<LabPage, "square-challenge-embed" | "law-of-cosines-embed" | "pythagorean-proofs-embed">;
 type LabNavPage = NavigablePage | "octahedron";
 
 const labPages: { page: LabNavPage; href: string; number: string; short: string }[] = [
@@ -1198,7 +1202,7 @@ function LabNavigation({ active }: { active: NavigablePage }) {
   );
 }
 
-function LawNavigation() {
+function TessellationNavigation({ active }: { active: "law-of-cosines" | "pythagorean-proofs" }) {
   return (
     <nav className="sandbox-nav" aria-label="Tessellation Lab">
       <a className="lab-brand" href="/" aria-label="Go to the Math Nomad Lab home page">
@@ -1209,7 +1213,8 @@ function LawNavigation() {
         </span>
       </a>
       <div>
-        <a className="is-active" aria-current="page" href="/law-of-cosines/"><span>01</span> Cosines</a>
+        <a className={active === "law-of-cosines" ? "is-active" : ""} aria-current={active === "law-of-cosines" ? "page" : undefined} href="/law-of-cosines/"><span>01</span> Cosines</a>
+        <a className={active === "pythagorean-proofs" ? "is-active" : ""} aria-current={active === "pythagorean-proofs" ? "page" : undefined} href="/pythagorean-tiling-proofs/"><span>02</span> Pythagoras</a>
       </div>
     </nav>
   );
@@ -1345,19 +1350,30 @@ function LabLanding() {
           <h2 id="tessellation-lab-heading">Tessellations</h2>
           <p>Explore area identities by laying periodic patterns over one another and watching what overlaps, disappears, or remains uncovered.</p>
         </header>
-        <a className="lab-card cosine-landing-card" href="/law-of-cosines/" aria-label="Open the Law of Cosines tessellation">
-          <div className="cosine-card-preview" aria-hidden="true">
-            <span className="preview-blue" />
-            <span className="preview-yellow" />
-            <span className="preview-grid" />
-          </div>
-          <div className="cosine-card-copy">
-            <span className="lab-card-number">Tessellation 01</span>
-            <h3>The Law of Cosines</h3>
-            <p>Move through the moduli space of triangle shapes, then translate a square grid across the two-colour tessellation.</p>
-            <strong>Explore <span aria-hidden="true">→</span></strong>
-          </div>
-        </a>
+        <div className="tessellation-card-list">
+          <a className="lab-card cosine-landing-card" href="/law-of-cosines/" aria-label="Open the Law of Cosines tessellation">
+            <div className="cosine-card-preview" aria-hidden="true">
+              <span className="preview-blue" />
+              <span className="preview-yellow" />
+              <span className="preview-grid" />
+            </div>
+            <div className="cosine-card-copy">
+              <span className="lab-card-number">Tessellation 01</span>
+              <h3>The Law of Cosines</h3>
+              <p>Move through the moduli space of triangle shapes, then translate a square grid across the two-colour tessellation.</p>
+              <strong>Explore <span aria-hidden="true">→</span></strong>
+            </div>
+          </a>
+          <a className="lab-card cosine-landing-card" href="/pythagorean-tiling-proofs/" aria-label="Open infinitely many proofs of Pythagoras' theorem">
+            <div className="pythagoras-card-preview" aria-hidden="true"><span className="pythagoras-card-grid" /></div>
+            <div className="cosine-card-copy">
+              <span className="lab-card-number">Tessellation 02</span>
+              <h3>Infinitely many “proofs” of Pythagoras</h3>
+              <p>Slide one square tiling over another and visit the medieval, Perigal, and Ferrarese dissection phases.</p>
+              <strong>Explore <span aria-hidden="true">→</span></strong>
+            </div>
+          </a>
+        </div>
       </section>
       <a className="mathnomad-return" href="https://mathnomad.in/">Return to Math Nomad <span aria-hidden="true">↗</span></a>
     </section>
@@ -1373,12 +1389,20 @@ export default function App({ page }: { page: LabPage }) {
     return <main className="page-shell is-embedded"><LawOfCosines embedded /></main>;
   }
 
+  if (page === "pythagorean-proofs-embed") {
+    return <main className="page-shell is-embedded"><PythagoreanProofs embedded /></main>;
+  }
+
   if (page === "landing") {
     return <main className="page-shell"><LabNavigation active="landing" /><LabLanding /></main>;
   }
 
   if (page === "law-of-cosines") {
-    return <main className="page-shell"><LawNavigation /><LawOfCosines /></main>;
+    return <main className="page-shell"><TessellationNavigation active="law-of-cosines" /><LawOfCosines /></main>;
+  }
+
+  if (page === "pythagorean-proofs") {
+    return <main className="page-shell"><TessellationNavigation active="pythagorean-proofs" /><PythagoreanProofs /></main>;
   }
 
   const sandbox = page === "square-challenge"

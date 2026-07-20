@@ -33,6 +33,8 @@ test("the deployment contains refresh-safe square pages and an embed entry", asy
     ["embed/square-kolam-tile-challenge/index.html", "square-challenge-embed"],
     ["law-of-cosines/index.html", "law-of-cosines"],
     ["embed/law-of-cosines/index.html", "law-of-cosines-embed"],
+    ["pythagorean-tiling-proofs/index.html", "pythagorean-proofs"],
+    ["embed/pythagorean-tiling-proofs/index.html", "pythagorean-proofs-embed"],
   ];
 
   for (const [path, page] of entries) {
@@ -49,6 +51,10 @@ test("the deployment contains refresh-safe square pages and an embed entry", asy
   const cosineEmbed = await readFile(join(output, "embed/law-of-cosines/index.html"), "utf8");
   assert.match(cosine, /<title>A Tessellation Proof of the Law of Cosines · Math Nomad<\/title>/);
   assert.match(cosineEmbed, /<title>A Tessellation Proof of the Law of Cosines · Math Nomad<\/title>/);
+  const pythagoras = await readFile(join(output, "pythagorean-tiling-proofs/index.html"), "utf8");
+  const pythagorasEmbed = await readFile(join(output, "embed/pythagorean-tiling-proofs/index.html"), "utf8");
+  assert.match(pythagoras, /<title>Infinitely Many Proofs of Pythagoras · Math Nomad<\/title>/);
+  assert.match(pythagorasEmbed, /<title>Infinitely Many Proofs of Pythagoras · Math Nomad<\/title>/);
 });
 
 test("the deployment contains the octahedron page and article embed", async () => {
@@ -86,5 +92,10 @@ test("the client bundle contains all four interactive sandboxes", async () => {
   assert.match(bundle, /A tessellation based proof for the law of cosines/);
   assert.match(bundle, /Two square families, one moving grid/);
   assert.match(bundle, /Triangles up to similarity/);
+  assert.match(bundle, /Infinitely many “proofs”/);
+  assert.match(bundle, /Two tilings of the plane/);
+  assert.match(bundle, /Historical anchor/);
+  assert.match(bundle, /Medieval corner/);
+  assert.match(bundle, /Ferrarese twin/);
   assert.doesNotMatch(bundle, /littleboy300\.chatgpt\.site/);
 });
