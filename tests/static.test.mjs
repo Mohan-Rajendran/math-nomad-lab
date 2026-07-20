@@ -68,8 +68,12 @@ test("the client bundle contains all four interactive sandboxes", async () => {
   assert.match(bundle, /Move X to Y/);
   assert.match(bundle, /Show solution/);
   assert.match(bundle, /Choose an orbit/);
-  assert.match(bundle, /Kolams on an octahedron/);
+  assert.match(bundle, /Compare the three graph theoretic representatives/);
   assert.match(bundle, /Fold the net/);
   assert.match(bundle, /Three equal arms/);
+  assert.match(bundle, /Three unequal arms/);
+  assert.match(bundle, /One long arm/);
+  assert.doesNotMatch(bundle, /Why only three\?/);
+  assert.doesNotMatch(bundle, /Each branch from the 111/);
   assert.doesNotMatch(bundle, /littleboy300\.chatgpt\.site/);
 });
