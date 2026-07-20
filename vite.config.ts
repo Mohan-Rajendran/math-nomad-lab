@@ -16,6 +16,8 @@ export default defineConfig({
         sandbox2: page("./sandbox-2/index.html"),
         sandbox3: page("./sandbox-3/index.html"),
         squareChallengeEmbed: page("./embed/square-kolam-tile-challenge/index.html"),
+        lawOfCosines: page("./law-of-cosines/index.html"),
+        lawOfCosinesEmbed: page("./embed/law-of-cosines/index.html"),
       },
     },
   },
