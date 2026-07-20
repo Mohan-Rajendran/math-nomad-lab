@@ -25,7 +25,7 @@ test("the deployment contains the Math Nomad application shell", async () => {
   assert.ok((await stat(join(output, "mathnomad-logo.png"))).size > 1_000);
 });
 
-test("the deployment contains refresh-safe pages and an embed entry", async () => {
+test("the deployment contains refresh-safe square pages and an embed entry", async () => {
   const entries = [
     ["square-kolam-tile-challenge/index.html", "square-challenge"],
     ["sandbox-2/index.html", "sandbox-2"],
@@ -45,7 +45,19 @@ test("the deployment contains refresh-safe pages and an embed entry", async () =
   assert.match(embed, /<title>Square Kolam Tile Challenge · Math Nomad<\/title>/);
 });
 
-test("the client bundle contains all three interactive sandboxes", async () => {
+test("the deployment contains the octahedron page and article embed", async () => {
+  const standalone = await readFile(join(output, "kolams-on-an-octahedron/index.html"), "utf8");
+  const embed = await readFile(join(output, "embed/kolams-on-an-octahedron/index.html"), "utf8");
+
+  assert.match(standalone, /<title>Kolams on an Octahedron · Math Nomad<\/title>/);
+  assert.match(embed, /<title>Kolams on an Octahedron · Math Nomad<\/title>/);
+  assert.match(standalone, /id="octahedron-root" data-mode="standalone"/);
+  assert.match(embed, /id="octahedron-root" data-mode="embed"/);
+  assert.match(standalone, /assets\/[^\"]+\.js/);
+  assert.match(embed, /assets\/[^\"]+\.js/);
+});
+
+test("the client bundle contains all four interactive sandboxes", async () => {
   const files = await collectJavaScript(join(output, "assets"));
   const bundle = (await Promise.all(files.map((file) => readFile(file, "utf8")))).join("\n");
   assert.match(bundle, /Build/);
@@ -56,5 +68,8 @@ test("the client bundle contains all three interactive sandboxes", async () => {
   assert.match(bundle, /Move X to Y/);
   assert.match(bundle, /Show solution/);
   assert.match(bundle, /Choose an orbit/);
+  assert.match(bundle, /Kolams on an octahedron/);
+  assert.match(bundle, /Fold the net/);
+  assert.match(bundle, /Three equal arms/);
   assert.doesNotMatch(bundle, /littleboy300\.chatgpt\.site/);
 });
