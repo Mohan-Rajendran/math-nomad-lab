@@ -1158,12 +1158,14 @@ export type LabPage =
   | "square-challenge-embed";
 
 type NavigablePage = Exclude<LabPage, "square-challenge-embed">;
+type LabNavPage = NavigablePage | "octahedron";
 
-const labPages: { page: NavigablePage; href: string; number: string; short: string }[] = [
+const labPages: { page: LabNavPage; href: string; number: string; short: string }[] = [
   { page: "landing", href: "/", number: "", short: "Lab home" },
   { page: "square-challenge", href: "/square-kolam-tile-challenge/", number: "01", short: "Build" },
   { page: "sandbox-2", href: "/sandbox-2/", number: "02", short: "Slide" },
   { page: "sandbox-3", href: "/sandbox-3/", number: "03", short: "Match" },
+  { page: "octahedron", href: "/kolams-on-an-octahedron/", number: "04", short: "Fold" },
 ];
 
 function LabNavigation({ active }: { active: NavigablePage }) {
@@ -1192,7 +1194,7 @@ function LabNavigation({ active }: { active: NavigablePage }) {
   );
 }
 
-type LabPreviewKind = "build" | "slide" | "match";
+type LabPreviewKind = "build" | "slide" | "match" | "octahedron";
 
 function PreviewBoard({ board }: { board: (number | null)[] }) {
   return (
@@ -1228,11 +1230,36 @@ function LabCardPreview({ kind }: { kind: LabPreviewKind }) {
     );
   }
 
-  return (
+  if (kind === "match") return (
     <div className="lab-card-preview preview-match">
       <PreviewBoard board={PUZZLE_SEEDS[6].state} />
       <span aria-hidden="true">→</span>
       <PreviewBoard board={PUZZLE_SEEDS[8].state} />
+    </div>
+  );
+
+  return (
+    <div className="lab-card-preview preview-octahedron" aria-hidden="true">
+      <svg viewBox="0 0 320 190" role="presentation">
+        <g transform="translate(57 21)">
+          <path d="M74 0 111 64 74 128 37 64Z" fill="#a0522d" />
+          <path d="M74 0 148 0 111 64Z" fill="#b76540" />
+          <path d="M111 64 148 128 74 128Z" fill="#914229" />
+          <path d="M37 64 0 128 74 128Z" fill="#ad5a36" />
+          <path d="M74 0 111 64 74 128 37 64Z M74 0 148 0 111 64 M111 64 148 128 74 128 M37 64 0 128 74 128" fill="none" stroke="#6f3424" strokeWidth="1.3" />
+          <path d="M14 115 C40 91 35 69 54 54 C66 44 77 50 75 67 M75 67 C73 85 84 94 102 88 C120 82 122 62 111 50 M111 50 C98 35 107 19 132 9" fill="none" stroke="#fffaf2" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="74" cy="64" r="4.5" fill="#fffaf2" />
+        </g>
+        <path d="M225 57 270 95 225 133 180 95Z" fill="#a0522d" stroke="#6f3424" strokeWidth="1.4" />
+        <path d="M225 57 270 95 225 95Z" fill="#b76540" />
+        <path d="M225 57 180 95 225 95Z" fill="#ad5a36" />
+        <path d="M225 133 270 95 225 95Z" fill="#914229" />
+        <path d="M225 133 180 95 225 95Z" fill="#a34f2e" />
+        <path d="M194 104 C208 92 210 79 225 78 C240 78 242 93 256 104" fill="none" stroke="#fffaf2" strokeWidth="7" strokeLinecap="round" />
+        <circle cx="225" cy="95" r="4.5" fill="#fffaf2" />
+        <path d="M161 95 H178" fill="none" stroke="#a0522d" strokeWidth="2" strokeDasharray="4 4" />
+        <path d="m171 88 7 7-7 7" fill="none" stroke="#a0522d" strokeWidth="2" />
+      </svg>
     </div>
   );
 }
@@ -1263,6 +1290,14 @@ function LabLanding() {
       action: "Match",
       preview: "match" as LabPreviewKind,
     },
+    {
+      href: "/kolams-on-an-octahedron/",
+      number: "Sandbox 04",
+      title: "Kolams on an Octahedron",
+      text: "Compare three connected triangular kolam nets, fold each into an octahedron, and explore the completed solid.",
+      action: "Fold",
+      preview: "octahedron" as LabPreviewKind,
+    },
   ];
 
   return (
@@ -1270,7 +1305,7 @@ function LabLanding() {
       <header>
         <div className="eyebrow"><span>Interactive mathematics</span><span className="eyebrow-line" /></div>
         <h1 id="lab-index-heading">Kolam Lab</h1>
-        <p>Three sandboxes for building, moving, and comparing square kolams.</p>
+        <p>Four sandboxes for building, moving, comparing, and folding binary kolam tiles.</p>
       </header>
       <div className="lab-card-grid">
         {cards.map((card) => (
