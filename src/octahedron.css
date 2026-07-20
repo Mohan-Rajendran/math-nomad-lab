@@ -1,14 +1,14 @@
 :root {
-  --paper: #f6efe4;
-  --paper-deep: #eadbc9;
-  --paper-light: #fffaf2;
-  --ink: #44251c;
-  --muted: #7b5b4d;
-  --sienna: #a0522d;
-  --sienna-dark: #7f3d27;
-  --line: #d7bea5;
-  --gold: #e2a51c;
-  --graph: #315f73;
+  --paper: #fbf8f1;
+  --paper-deep: #f1e9db;
+  --paper-light: #fffdf8;
+  --ink: #2d241f;
+  --muted: #66584f;
+  --sienna: #a34f2e;
+  --sienna-dark: #74331f;
+  --line: #d9ccbb;
+  --gold: #c18a3e;
+  --graph: #3f6b62;
 }
 
 * { box-sizing: border-box; }
@@ -17,9 +17,9 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 9% 7%, rgba(160, 82, 45, .09), transparent 25rem),
-    radial-gradient(circle at 91% 16%, rgba(226, 165, 28, .08), transparent 24rem),
-    linear-gradient(180deg, #fbf6ee 0%, var(--paper) 61%, #efe3d5 100%);
+    radial-gradient(circle at 9% 7%, rgba(163, 79, 46, .09), transparent 25rem),
+    radial-gradient(circle at 91% 16%, rgba(193, 138, 62, .08), transparent 24rem),
+    linear-gradient(180deg, #fffdf8 0%, var(--paper) 61%, #f1e9db 100%);
   color: var(--ink);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -169,7 +169,7 @@ button { color: inherit; }
   place-items: center;
   border-radius: 10px;
   overflow: hidden;
-  background: #efe7dc;
+  background: #f1e9db;
 }
 .octa-mini-net svg { display: block; width: 100%; height: 78px; }
 .octa-representative-copy { min-width: 0; }
@@ -177,9 +177,9 @@ button { color: inherit; }
 .octa-representative-copy strong { display: block; margin-top: 5px; font-family: Georgia, "Times New Roman", serif; font-size: 1rem; line-height: 1.05; }
 .octa-representative-copy > span { display: block; margin-top: 7px; color: var(--muted); font-family: ui-monospace, monospace; font-size: .64rem; }
 
-.octa-mini-face { fill: #fffaf2; stroke: rgba(68,37,28,.55); stroke-width: .8; }
-.octa-mini-curve { fill: none; stroke: #b54d36; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-.octa-mini-dot { fill: #fffaf2; stroke: #b54d36; stroke-width: 1.4; }
+.octa-mini-face { fill: var(--sienna); stroke: rgba(45,36,31,.58); stroke-width: .8; }
+.octa-mini-curve { fill: none; stroke: var(--paper-light); stroke-width: 3.1; stroke-linecap: round; stroke-linejoin: round; }
+.octa-mini-dot { fill: var(--paper-light); stroke: none; }
 
 .octa-viewer-card {
   min-width: 0;
@@ -211,7 +211,7 @@ button { color: inherit; }
   background:
     linear-gradient(rgba(68,37,28,.025) 1px, transparent 1px),
     linear-gradient(90deg, rgba(68,37,28,.025) 1px, transparent 1px),
-    #efe7dc;
+    #f1e9db;
   background-size: 28px 28px;
 }
 .octa-stage {
@@ -246,18 +246,18 @@ button { color: inherit; }
   backdrop-filter: blur(4px);
 }
 
-.octa-face { stroke: rgba(68,37,28,.82); stroke-width: 1.35; stroke-linejoin: round; }
+.octa-face { stroke: rgba(45,36,31,.68); stroke-width: 1.25; stroke-linejoin: round; }
 .octa-kolam-curve {
   fill: none;
-  stroke: #b64e36;
-  stroke-width: 6.4;
+  stroke: var(--paper-light);
+  stroke-width: 7.2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.octa-kolam-dot { fill: #fffaf2; stroke: #b64e36; stroke-width: 2.6; }
+.octa-kolam-dot { fill: var(--paper-light); stroke: none; }
 .octa-face-label {
-  fill: var(--ink);
-  stroke: rgba(255,250,242,.94);
+  fill: var(--paper-light);
+  stroke: rgba(45,36,31,.94);
   stroke-width: 4px;
   paint-order: stroke fill;
   font-family: ui-monospace, monospace;
@@ -273,7 +273,7 @@ button { color: inherit; }
   stroke-linecap: round;
   opacity: .72;
 }
-.octa-graph-node { fill: #f6efe4; stroke: var(--graph); stroke-width: 2.5; }
+.octa-graph-node { fill: var(--paper); stroke: var(--graph); stroke-width: 2.5; }
 
 .octa-fold-controls {
   display: grid;
