@@ -6,13 +6,13 @@ import "./styles.css";
 const root = document.getElementById("root");
 
 if (!root) {
-  throw new Error("The Kolam Lab root element is missing.");
+  throw new Error("The Math Nomad Lab root element is missing.");
 }
 
 const page = root.dataset.page as LabPage | undefined;
 
 if (!page) {
-  throw new Error("The Kolam Lab page identifier is missing.");
+  throw new Error("The Math Nomad Lab page identifier is missing.");
 }
 
 createRoot(root).render(

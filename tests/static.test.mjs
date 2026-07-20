@@ -18,7 +18,7 @@ async function collectJavaScript(directory) {
 
 test("the deployment contains the Math Nomad application shell", async () => {
   const html = await readFile(join(output, "index.html"), "utf8");
-  assert.match(html, /<title>Kolam Lab · Math Nomad<\/title>/);
+  assert.match(html, /<title>Math Nomad Lab<\/title>/);
   assert.match(html, /mathnomad-logo\.png/);
   assert.match(html, /<div id="root" data-page="landing"><\/div>/);
   assert.match(html, /\.\/assets\/[^\"]+\.js/);
@@ -31,6 +31,8 @@ test("the deployment contains refresh-safe square pages and an embed entry", asy
     ["sandbox-2/index.html", "sandbox-2"],
     ["sandbox-3/index.html", "sandbox-3"],
     ["embed/square-kolam-tile-challenge/index.html", "square-challenge-embed"],
+    ["law-of-cosines/index.html", "law-of-cosines"],
+    ["embed/law-of-cosines/index.html", "law-of-cosines-embed"],
   ];
 
   for (const [path, page] of entries) {
@@ -43,6 +45,10 @@ test("the deployment contains refresh-safe square pages and an embed entry", asy
   const embed = await readFile(join(output, "embed/square-kolam-tile-challenge/index.html"), "utf8");
   assert.match(challenge, /<title>Square Kolam Tile Challenge · Math Nomad<\/title>/);
   assert.match(embed, /<title>Square Kolam Tile Challenge · Math Nomad<\/title>/);
+  const cosine = await readFile(join(output, "law-of-cosines/index.html"), "utf8");
+  const cosineEmbed = await readFile(join(output, "embed/law-of-cosines/index.html"), "utf8");
+  assert.match(cosine, /<title>A Tessellation Proof of the Law of Cosines · Math Nomad<\/title>/);
+  assert.match(cosineEmbed, /<title>A Tessellation Proof of the Law of Cosines · Math Nomad<\/title>/);
 });
 
 test("the deployment contains the octahedron page and article embed", async () => {
@@ -77,5 +83,8 @@ test("the client bundle contains all four interactive sandboxes", async () => {
   assert.match(bundle, /Kolams on an Octahedron/);
   assert.doesNotMatch(bundle, /Why only three\?/);
   assert.doesNotMatch(bundle, /Each branch from the 111/);
+  assert.match(bundle, /A tessellation based proof for the law of cosines/);
+  assert.match(bundle, /Two square families, one moving grid/);
+  assert.match(bundle, /Triangles up to similarity/);
   assert.doesNotMatch(bundle, /littleboy300\.chatgpt\.site/);
 });

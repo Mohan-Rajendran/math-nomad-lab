@@ -18,6 +18,8 @@ export default defineConfig({
         octahedron: page("./kolams-on-an-octahedron/index.html"),
         squareChallengeEmbed: page("./embed/square-kolam-tile-challenge/index.html"),
         octahedronEmbed: page("./embed/kolams-on-an-octahedron/index.html"),
+        lawOfCosines: page("./law-of-cosines/index.html"),
+        lawOfCosinesEmbed: page("./embed/law-of-cosines/index.html"),
       },
     },
   },

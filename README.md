@@ -3,7 +3,7 @@
 Math Nomad Lab is a collection of browser-based mathematical interactives for
 [mathnomad.in](https://mathnomad.in).
 
-The first release is the **Kolam Lab**, built from the sixteen binary square
+The first collection is the **Kolam Lab**, built from the sixteen binary square
 kolam tiles. It contains three related sandboxes:
 
 1. construct a valid connected kolam using every tile exactly once;
@@ -13,6 +13,9 @@ kolam tiles. It contains three related sandboxes:
 A fourth sandbox extends the binary tile model to the eight triangular tiles on
 an octahedron. Three connected nets fold in three dimensions to display the
 three exact graph-theoretic representatives.
+
+The **Tessellations** collection begins with an interactive proof of the law of
+cosines over the moduli space of triangle shapes.
 
 ## Routes
 
@@ -25,6 +28,8 @@ three exact graph-theoretic representatives.
 | Kolams on an Octahedron | `/kolams-on-an-octahedron/` |
 | Square challenge article embed | `/embed/square-kolam-tile-challenge/` |
 | Octahedron article embed | `/embed/kolams-on-an-octahedron/` |
+| Law of Cosines | `/law-of-cosines/` |
+| Law of Cosines article embed | `/embed/law-of-cosines/` |
 
 The square-tile article can embed the first challenge with:
 

@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { LawOfCosines } from "./LawOfCosines";
+import "./law-of-cosines.css";
 
 type Direction = "E" | "N" | "W" | "S";
 type Epsilon = 1 | -1;
@@ -1155,9 +1157,11 @@ export type LabPage =
   | "square-challenge"
   | "sandbox-2"
   | "sandbox-3"
-  | "square-challenge-embed";
+  | "square-challenge-embed"
+  | "law-of-cosines"
+  | "law-of-cosines-embed";
 
-type NavigablePage = Exclude<LabPage, "square-challenge-embed">;
+type NavigablePage = Exclude<LabPage, "square-challenge-embed" | "law-of-cosines-embed">;
 type LabNavPage = NavigablePage | "octahedron";
 
 const labPages: { page: LabNavPage; href: string; number: string; short: string }[] = [
@@ -1189,6 +1193,23 @@ function LabNavigation({ active }: { active: NavigablePage }) {
             <span>{item.number}</span> {item.short}
           </a>
         ))}
+      </div>
+    </nav>
+  );
+}
+
+function LawNavigation() {
+  return (
+    <nav className="sandbox-nav" aria-label="Tessellation Lab">
+      <a className="lab-brand" href="/" aria-label="Go to the Math Nomad Lab home page">
+        <img src="/mathnomad-logo.png" alt="" width="36" height="36" />
+        <span>
+          <strong>Math Nomad</strong>
+          <small>Tessellation Lab</small>
+        </span>
+      </a>
+      <div>
+        <a className="is-active" aria-current="page" href="/law-of-cosines/"><span>01</span> Cosines</a>
       </div>
     </nav>
   );
@@ -1318,6 +1339,26 @@ function LabLanding() {
           </a>
         ))}
       </div>
+      <section className="cosine-collection" aria-labelledby="tessellation-lab-heading">
+        <header>
+          <div className="eyebrow"><span>Another collection</span><span className="eyebrow-line" /></div>
+          <h2 id="tessellation-lab-heading">Tessellations</h2>
+          <p>Explore area identities by laying periodic patterns over one another and watching what overlaps, disappears, or remains uncovered.</p>
+        </header>
+        <a className="lab-card cosine-landing-card" href="/law-of-cosines/" aria-label="Open the Law of Cosines tessellation">
+          <div className="cosine-card-preview" aria-hidden="true">
+            <span className="preview-blue" />
+            <span className="preview-yellow" />
+            <span className="preview-grid" />
+          </div>
+          <div className="cosine-card-copy">
+            <span className="lab-card-number">Tessellation 01</span>
+            <h3>The Law of Cosines</h3>
+            <p>Move through the moduli space of triangle shapes, then translate a square grid across the two-colour tessellation.</p>
+            <strong>Explore <span aria-hidden="true">→</span></strong>
+          </div>
+        </a>
+      </section>
       <a className="mathnomad-return" href="https://mathnomad.in/">Return to Math Nomad <span aria-hidden="true">↗</span></a>
     </section>
   );
@@ -1328,8 +1369,16 @@ export default function App({ page }: { page: LabPage }) {
     return <main className="page-shell is-embedded"><SandboxOne /></main>;
   }
 
+  if (page === "law-of-cosines-embed") {
+    return <main className="page-shell is-embedded"><LawOfCosines embedded /></main>;
+  }
+
   if (page === "landing") {
     return <main className="page-shell"><LabNavigation active="landing" /><LabLanding /></main>;
+  }
+
+  if (page === "law-of-cosines") {
+    return <main className="page-shell"><LawNavigation /><LawOfCosines /></main>;
   }
 
   const sandbox = page === "square-challenge"
