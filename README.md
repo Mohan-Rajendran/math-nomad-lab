@@ -10,9 +10,9 @@ kolam tiles. It contains three related sandboxes:
 2. explore the two orbits of the corresponding 15-puzzle; and
 3. solve a randomly selected same-orbit transformation challenge.
 
-A fourth preview extends the binary tile model to the eight triangular tiles on
-an octahedron. A common net folds in three dimensions and displays the three
-exact graph-theoretic representatives.
+A fourth sandbox extends the binary tile model to the eight triangular tiles on
+an octahedron. Three connected nets fold in three dimensions to display the
+three exact graph-theoretic representatives.
 
 ## Routes
 
