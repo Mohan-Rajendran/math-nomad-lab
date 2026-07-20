@@ -30,6 +30,8 @@ cosines over the moduli space of triangle shapes.
 | Octahedron article embed | `/embed/kolams-on-an-octahedron/` |
 | Law of Cosines | `/law-of-cosines/` |
 | Law of Cosines article embed | `/embed/law-of-cosines/` |
+| Infinitely Many Proofs of Pythagoras | `/pythagorean-tiling-proofs/` |
+| Pythagorean proofs article embed | `/embed/pythagorean-tiling-proofs/` |
 
 The square-tile article can embed the first challenge with:
 
@@ -47,6 +49,16 @@ The octahedron article can embed the foldable explorer with:
 <iframe
   src="https://lab.mathnomad.in/embed/kolams-on-an-octahedron/"
   title="Kolams on an Octahedron"
+  loading="lazy"
+></iframe>
+```
+
+The Pythagorean tiling article can embed its two-panel sandbox with:
+
+```html
+<iframe
+  src="https://lab.mathnomad.in/embed/pythagorean-tiling-proofs/"
+  title="Infinitely many tessellation proofs of Pythagoras' theorem"
   loading="lazy"
 ></iframe>
 ```
